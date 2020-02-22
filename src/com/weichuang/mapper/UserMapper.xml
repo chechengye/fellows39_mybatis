@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weichuang.mapper.UserMapper">
+    <!--id 在此配置文件中不可重复。且需要与对应接口中的方法名保持一致
+        自定义类型的对象，需要些全路径。除非配置别名
+        resultType : 标识自动映射
+        resultMap : 手动映射
+    -->
+    <select id="getAllUser" resultType="User">
+        select * from t_user
+    </select>
+    <!--若是只有一个参数，名称任意，取值方式#{} 底层实现使用对象 PreparedStatement -->
+    <delete id="deleteUserById" parameterType="Integer">
+        delete from t_user where id = #{id}
+    </delete>
+    <!--若是对象类型，#{}取值，必须是属性名称 -->
+    <insert id="insertUser" parameterType="User">
+        insert into t_user VALUES (null , #{name} , #{sex} , #{email})
+    </insert>
+
+    <select id="getUsersByQueryVo" parameterType="QueryVo" resultType="User">
+        select * from t_user where name like "%"#{user.name}"%"
+    </select>
+
+    <select id="getUserCount" resultType="Integer">
+        select count(*) from t_user
+    </select>
+
+    <sql id="selUser">select * from t_user</sql>
+    <!-- <where> 会默认去掉第一个前and -->
+    <select id="getUsersByNameAndSex" resultType="User">
+        <include refid="selUser"/>
+        <where>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+        </where>
+    </select>
+    <!--<select id="getUsersByNameAndSex" parameterType="User" resultType="User">
+        select * from t_user where 1=1
+        <if test="sex != null and sex != ''">
+            and sex = #{sex}
+        </if>
+        <if test="name != null and name != ''">
+            and name = #{name}
+        </if>
+    </select>-->
+
+    <!--List<User> getUsersByIds(List<Integer> ids);
+      List<User> getUsersByQueryVoIds(QueryVo vo);
+    -->
+    <select id="getUsersByIds" resultType="User">
+        <include refid="selUser"/>
+        <where>
+            <foreach collection="array" open="id IN (" separator="," close=")" item="id">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+</mapper>
