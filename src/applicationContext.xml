@@ -23,9 +23,13 @@
         <property name="configLocation" value="classpath:com/weichuang/mybatis/SqlMapConfig.xml"></property>
     </bean>
     <!--单独扫描接口-->
-    <bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+    <!--<bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
         <property name="mapperInterface" value="com.weichuang.mapper.UserMapper"></property>
+    </bean>-->
+    <!--包扫描-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.weichuang.mapper"></property>
     </bean>
     <!--配置事务通知对象-->
    <!-- <tx:advice id="txAdvice">

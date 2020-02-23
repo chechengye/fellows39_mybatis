@@ -147,7 +147,8 @@ public class QuickStartDemo {
     @Test
     public void testFn10(){
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
-        UserMapper userMapper = (UserMapper)applicationContext.getBean("userMapper");
+        //UserMapper userMapper = (UserMapper)applicationContext.getBean("userMapper");
+        UserMapper userMapper = applicationContext.getBean(UserMapper.class);
         List<User> allUser = userMapper.getAllUser();
         System.out.println(allUser);
     }
