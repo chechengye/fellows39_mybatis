@@ -11,6 +11,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,7 +26,7 @@ public class QuickStartDemo {
 
         try {
             //1、获取主配置文件的位置
-            String resource = "SqlMapConfig.xml";
+            String resource = "com/weichuang/mybatis/SqlMapConfig.xml";
             //2、根据文件获取输入流
             InputStream resourceAsStream = Resources.getResourceAsStream(resource);
             //3、根据输入流获取sql会话工厂对象
@@ -121,5 +123,32 @@ public class QuickStartDemo {
         List<User> userList = userMapper.getUsersByIds(idArr);
 
         System.out.println(userList);
+    }
+    //一对一关联查询
+    @Test
+    public void testFn8(){
+        SqlSession sqlSession = SqlSessionUtil.getSqlSession();
+        //5、从会话对象中获取一个mapper映射
+        OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+        List<Order> orderUserOBO = orderMapper.getOrderUserOBO();
+        System.out.println(orderUserOBO);
+    }
+    //一对多关联查询
+    @Test
+    public void testFn9(){
+        SqlSession sqlSession = SqlSessionUtil.getSqlSession();
+        //5、从会话对象中获取一个mapper映射
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        List<User> userList = userMapper.getUserOrderOBM();
+        System.out.println(userList);
+    }
+
+    //mybatis整合Spring框架的测试
+    @Test
+    public void testFn10(){
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+        UserMapper userMapper = (UserMapper)applicationContext.getBean("userMapper");
+        List<User> allUser = userMapper.getAllUser();
+        System.out.println(allUser);
     }
 }

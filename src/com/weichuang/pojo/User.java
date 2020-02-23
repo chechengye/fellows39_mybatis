@@ -1,12 +1,14 @@
 package com.weichuang.pojo;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class User implements Serializable{
     private int id;
     private String name;
     private String email;
     private int sex;
+    private List<Order> orderList;
 
     public int getId() {
         return id;
@@ -40,6 +42,14 @@ public class User implements Serializable{
         this.sex = sex;
     }
 
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -47,6 +57,7 @@ public class User implements Serializable{
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", sex=" + sex +
+                ", orderList=" + orderList +
                 '}';
     }
 }

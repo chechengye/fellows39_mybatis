@@ -27,4 +27,6 @@ public interface UserMapper {
     /*List<User> getUsersByIds(List<Integer> ids);*/
     List<User> getUsersByIds(Integer[] ids);
     List<User> getUsersByQueryVoIds(QueryVo vo);
+
+    List<User> getUserOrderOBM();
 }

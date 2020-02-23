@@ -62,4 +62,18 @@
             </foreach>
         </where>
     </select>
+    <!--解决一对多映射关系-->
+    <resultMap id="user_order" type="User">
+        <result property="name" column="name"></result>
+        <result property="email" column="email"></result>
+        <collection property="orderList" ofType="Order">
+            <id property="id" column="id"></id>
+            <result property="userId" column="user_id"></result>
+            <result property="ono" column="ono"></result>
+            <result property="createtime" column="createtime"></result>
+        </collection>
+    </resultMap>
+    <select id="getUserOrderOBM" resultMap="user_order">
+        select u.email , u.name , o.user_id, o.id , o.ono ,  o.createtime from t_user u LEFT JOIN t_order o on o.user_id = u.id
+    </select>
 </mapper>
